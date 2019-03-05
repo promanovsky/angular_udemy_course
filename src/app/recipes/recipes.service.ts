@@ -7,8 +7,10 @@ import {ShoppingListService} from '../shopping-list/shopping-list.service';
 export class RecipesService {
 
   recipeSelected = new EventEmitter<Recipe>();
+
   private recipes: Recipe[] = [
     new Recipe(
+      1,
       'Shnitzel',
       'This is a test 1',
       'https://www.maxpixel.net/static/photo/1x/Mushrooms-Recipe-Kitchen-French-Dish-2459679.jpg',
@@ -16,7 +18,9 @@ export class RecipesService {
         new Ingredient('meat', 1),
         new Ingredient('french fries', 2)
       ]),
-    new Recipe('Burger', 'This is a second recipe',
+    new Recipe(
+      2,
+      'Burger', 'This is a second recipe',
       'https://www.maxpixel.net/static/photo/1x/Mushrooms-Recipe-Kitchen-French-Dish-2459679.jpg',
       [
         new Ingredient('buns', 2),
@@ -28,6 +32,15 @@ export class RecipesService {
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  getRecipe(id: number) {
+    const recipe = this.recipes.slice().find(
+      (s) => {
+        return s.id === id;
+      }
+    );
+    return recipe;
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
