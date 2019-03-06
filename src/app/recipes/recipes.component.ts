@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Recipe} from './recipe.model';
+import {Component, OnInit} from '@angular/core';
 import {RecipesService} from './recipes.service';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -10,11 +8,9 @@ import {ActivatedRoute} from '@angular/router';
   providers: [RecipesService]
 })
 export class RecipesComponent implements OnInit {
-  selectedRecipe: Recipe;
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-
   }
 }
