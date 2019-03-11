@@ -1,29 +1,66 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Ingredient} from '../../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list.service';
+import {FormGroup, NgForm} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css']
 })
-export class ShoppingEditComponent implements OnInit {
-
-  @ViewChild('nameInput') nameInput: ElementRef;
-  @ViewChild('amountInput') amountInput: ElementRef;
+export class ShoppingEditComponent implements OnInit, OnDestroy {
+  @ViewChild('f') slForm: NgForm;
+  subscr: Subscription;
+  editMode = false;
+  editedIngredient: Ingredient;
 
   constructor(private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
+    this.subscr = this.shoppingListService.startedEditing.subscribe(
+      (id: number) => {
+        this.editMode = true;
+        this.editedIngredient = this.shoppingListService.getIngredient(id);
+        this.slForm.setValue({
+           name: this.editedIngredient.name,
+           amount: this.editedIngredient.amount
+        });
+      }
+    );
   }
 
-  onAddIngredientClick() {
-    const ing = new Ingredient(
-        this.nameInput.nativeElement.value,
-        this.amountInput.nativeElement.value as number
-    );
-    console.log(this.nameInput);
-    this.shoppingListService.addIngredient(ing);
+  ngOnDestroy() {
+    this.subscr.unsubscribe();
+  }
+
+  onSubmitForm(form: NgForm) {
+    if (this.editMode) {
+      const ing = new Ingredient(
+        this.editedIngredient.id,
+        form.value.name,
+        form.value.amount,
+      );
+      this.shoppingListService.updateIngredient(ing);
+    } else {
+      const id = this.shoppingListService.getLastId();
+      const ing = new Ingredient(
+        id,
+        form.value.name,
+        form.value.amount,
+      );
+      this.shoppingListService.addIngredient(ing);
+    }
+    this.doResetForm();
+  }
+
+  doResetForm() {
+    this.editMode = false;
+    this.slForm.reset();
+  }
+
+  onDeleteItem() {
+
   }
 
 }

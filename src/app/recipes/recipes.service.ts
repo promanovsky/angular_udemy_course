@@ -13,16 +13,16 @@ export class RecipesService {
       'This is a test 1',
       'https://www.maxpixel.net/static/photo/1x/Mushrooms-Recipe-Kitchen-French-Dish-2459679.jpg',
       [
-        new Ingredient('meat', 1),
-        new Ingredient('french fries', 2)
+        new Ingredient(0, 'meat', 1),
+        new Ingredient(1, 'french fries', 2)
       ]),
     new Recipe(
       2,
       'Burger', 'This is a second recipe',
       'https://www.maxpixel.net/static/photo/1x/Mushrooms-Recipe-Kitchen-French-Dish-2459679.jpg',
       [
-        new Ingredient('buns', 2),
-        new Ingredient('meat', 1)
+        new Ingredient(2, 'buns', 2),
+        new Ingredient(3, 'meat', 1)
       ])
   ];
 
