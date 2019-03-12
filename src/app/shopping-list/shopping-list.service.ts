@@ -2,13 +2,13 @@ import {Ingredient} from '../shared/ingredient.model';
 import {Subject} from 'rxjs';
 
 export class ShoppingListService {
-  lastId = 6;
+  lastId = 2;
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
 
   private ingredients: Ingredient[] = [
-    new Ingredient(4, 'Apples', 7),
-    new Ingredient(5, 'Tomatoes', 5)
+    new Ingredient(0, 'Apples', 7),
+    new Ingredient(1, 'Tomatoes', 5)
   ];
 
   getIngredients() {
@@ -18,11 +18,13 @@ export class ShoppingListService {
   addIngredient(ingredient: Ingredient) {
     this.ingredients.push(ingredient);
     console.log(ingredient);
+    this.lastId++;
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   addIngredients(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients);
+    this.lastId += ingredients.length;
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
@@ -49,6 +51,13 @@ export class ShoppingListService {
   }
 
   removeIngredient(data: Ingredient) {
-    // this.ingredients.
+    console.log(data);
+    for (let ind = 0; ind < this.ingredients.length; ind++) {
+      if (this.ingredients[ind].id === data.id) {
+        this.ingredients.splice(ind, 1);
+        break;
+      }
+    }
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 }
