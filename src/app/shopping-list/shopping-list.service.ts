@@ -51,7 +51,6 @@ export class ShoppingListService {
   }
 
   removeIngredient(data: Ingredient) {
-    console.log(data);
     for (let ind = 0; ind < this.ingredients.length; ind++) {
       if (this.ingredients[ind].id === data.id) {
         this.ingredients.splice(ind, 1);

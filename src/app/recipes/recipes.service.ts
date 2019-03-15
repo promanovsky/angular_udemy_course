@@ -36,12 +36,11 @@ export class RecipesService {
   }
 
   getRecipe(id: number) {
-    const recipe = this.recipes.slice().find(
+    return this.recipes.slice().find(
       (s) => {
         return s.id === id;
       }
     );
-    return recipe;
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
@@ -64,6 +63,16 @@ export class RecipesService {
     recipe.imagePath = data.imagePath;
     recipe.description = data.description;
     recipe.ingredients = data.ingredients;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(id: number) {
+    for(let ind=0; ind<this.recipes.length; ind++){
+      if(this.recipes[ind].id === id){
+        this.recipes.splice(ind, 1);
+        break;
+      }
+    }
     this.recipesChanged.next(this.recipes.slice());
   }
 }
