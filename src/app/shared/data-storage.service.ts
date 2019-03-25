@@ -5,17 +5,21 @@ import {map} from 'rxjs/operators';
 import {RecipesService} from '../recipes/recipes.service';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {Recipe} from '../recipes/recipe.model';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class DataStorageService {
-  constructor(private httpService: Http, private recipesService: RecipesService, private shoppingListService: ShoppingListService){}
+  constructor(private httpService: Http, private recipesService: RecipesService, private shoppingListService: ShoppingListService,
+              private authService: AuthService){}
 
   storeRecipes(): Observable<any> {
-    return this.httpService.put('https://ng-recipe-book-22.firebaseio.com/recipes.json', this.recipesService.getRecipes());
+    const token = this.authService.getToken();
+    return this.httpService.put('https://ng-recipe-book-22.firebaseio.com/recipes.json?auth='+token, this.recipesService.getRecipes());
   }
 
   loadRecipes(): Observable<any> {
-    return this.httpService.get('https://ng-recipe-book-22.firebaseio.com/recipes.json')
+    const token = this.authService.getToken();
+    return this.httpService.get('https://ng-recipe-book-22.firebaseio.com/recipes.json?auth='+token)
       .pipe(map(
         (resp: Response) => {
           const recipes: Recipe[] = resp.json();
@@ -34,11 +38,13 @@ export class DataStorageService {
   }
 
   storeIngredients(): Observable<any> {
-    return this.httpService.put('https://ng-recipe-book-22.firebaseio.com/ingredients.json', this.shoppingListService.getIngredients());
+    const token = this.authService.getToken();
+    return this.httpService.put('https://ng-recipe-book-22.firebaseio.com/ingredients.json?auth='+token, this.shoppingListService.getIngredients());
   }
 
   loadIngredients(): Observable<any> {
-    return this.httpService.get('https://ng-recipe-book-22.firebaseio.com/ingredients.json')
+    const token = this.authService.getToken();
+    return this.httpService.get('https://ng-recipe-book-22.firebaseio.com/ingredients.json?auth='+token)
       .pipe(map(
         (resp: Response) => {
           this.shoppingListService.setIngredients(resp.json());

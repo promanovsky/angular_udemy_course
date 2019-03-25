@@ -11,7 +11,14 @@
         <li routerLinkActive="active"><a routerLink="/shopping-list">Shopping List</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown" appDropdown>
+        <ng-template [ngIf]="!authService.isAuthenticated()">
+          <li><a style="cursor: pointer;" routerLinkActive="active" routerLink="/signup">Register</a></li>
+          <li><a style="cursor: pointer;" routerLinkActive="active" routerLink="/signin">Login</a></li>
+        </ng-template>
+
+        <li *ngIf="authService.isAuthenticated()"><a style="cursor: pointer;" routerLinkActive="active" (click)="logOut()">Logout</a></li>
+
+        <li class="dropdown" appDropdown *ngIf="authService.isAuthenticated()">
           <a style="cursor: pointer;" class="dropdown-toggle" role="button">
             Options
             <span class="caret"></span>

@@ -18,7 +18,7 @@
       <ul class="dropdown-menu">
         <li><a (click)="onAddToShoppingList()" style="cursor: pointer;" [routerLink]="['/shopping-list']">To Shopping List</a></li>
         <li><a style="cursor: pointer;" [routerLink]="['/recipes', recipe.id, 'edit']">Edit Recipe</a></li>
-        <li><a style="cursor: pointer;" (click)="onDeleteRecipe(recipe.id)">Delete Recipe</a></li>
+        <li *ngIf="authService.isAuthenticated()"><a style="cursor: pointer;" (click)="onDeleteRecipe(recipe.id)">Delete Recipe</a></li>
       </ul>
     </div>
   </div>
