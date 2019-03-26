@@ -37,4 +37,8 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.deleteRecipe(id);
     this.router.navigate(['/recipes']);
   }
+
+  isUserAuthenticate() {
+    return this.authService.isAuthenticated();
+  }
 }
