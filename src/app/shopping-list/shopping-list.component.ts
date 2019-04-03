@@ -10,10 +10,10 @@ import {Store} from '@ngrx/store';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.css']
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
+export class ShoppingListComponent implements OnInit/*, OnDestroy*/ {
   //ingredients: Ingredient[];
   shoppingListState: Observable<{ingredients: Ingredient[]}>;
-  sub: Subscription;
+  //sub: Subscription;
 
   constructor(private shoppingListService: ShoppingListService, private authService: AuthService,
               private store: Store<{shoppingList: {ingredients: Ingredient[]}}>) { }
@@ -28,9 +28,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     );*/
   }
 
-  ngOnDestroy() {
+  /*ngOnDestroy() {
     this.sub.unsubscribe();
-  }
+  }*/
 
   onEditItem(id: number) {
     this.shoppingListService.startedEditing.next(id);
