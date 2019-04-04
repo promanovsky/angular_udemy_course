@@ -19,13 +19,7 @@ export class HeaderComponent {
       (error) => {console.log(error);
       }
     );
-    this.dataStorageService.storeIngredients().subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {console.log(error);
-      }
-    );
+    this.dataStorageService.storeIngredients();
   }
 
   loadFromDb() {
