@@ -1,17 +1,26 @@
 import {Action} from '@ngrx/store';
 
-export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_SIGNUP = 'AUTH_SIGNUP';
+export const AUTH_SIGNIN = 'AUTH_SIGNIN';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const SET_TOKEN = 'SET_TOKEN';
 
-export class AuthLogin implements Action {
-  readonly type = AUTH_LOGIN;
-  constructor(public payload: any){}
+export class AuthSignup implements Action {
+  readonly type = AUTH_SIGNUP;
+}
+
+export class AuthSignin implements Action {
+  readonly type = AUTH_SIGNIN;
 }
 
 export class AuthLogout implements Action {
   readonly type = AUTH_LOGOUT;
-  constructor(public payload: any){}
 }
 
-export type AuthActions = AuthLogin | AuthLogout;
+export class SetToken implements Action {
+  readonly type = SET_TOKEN;
+  constructor(public payload: string){}
+}
+
+export type AuthActions = AuthSignup | AuthLogout | AuthSignin | SetToken;
 

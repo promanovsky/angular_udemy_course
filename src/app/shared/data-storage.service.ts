@@ -8,13 +8,14 @@ import {Ingredient} from './ingredient.model';
 import {Store} from '@ngrx/store';
 import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
+import * as fromApp from '../store/app.reducer';
 
 
 @Injectable()
 export class DataStorageService {
   constructor(private httpClient: HttpClient,
               private recipesService: RecipesService,
-              private store: Store<fromShoppingList.AppState>){}
+              private store: Store<fromApp.AppState>){}
 
   storeRecipes(): Observable<any> {
     const req = new HttpRequest('PUT', 'https://ng-recipe-book-22.firebaseio.com/recipes.json', this.recipesService.getRecipes(), {
