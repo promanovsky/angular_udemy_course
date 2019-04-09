@@ -5,6 +5,8 @@ import {AuthService} from '../auth/auth.service';
 import {Store} from '@ngrx/store';
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
 import * as fromApp from '../store/app.reducer';
+import {map} from 'rxjs/operators';
+import * as fromAuth from '../auth/store/auth.reducers';
 
 @Component({
   selector: 'app-shopping-list',
@@ -15,8 +17,7 @@ export class ShoppingListComponent implements OnInit{
 
   shoppingListState: Observable<{ingredients: Ingredient[]}>;
 
-  constructor(private authService: AuthService,
-              private store: Store<fromApp.AppState>) { }
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.shoppingListState = this.store.select('shoppingList');
@@ -27,6 +28,9 @@ export class ShoppingListComponent implements OnInit{
   }
 
   isUserAuthenticate() {
-    return this.authService.isAuthenticated();
+    return this.store.select('auth').pipe(map(
+      (authState: fromAuth.State)=>{
+        return authState.authenticated;
+      }));
   }
 }

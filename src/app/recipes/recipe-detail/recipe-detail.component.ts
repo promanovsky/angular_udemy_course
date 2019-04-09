@@ -6,6 +6,8 @@ import {AuthService} from '../../auth/auth.service';
 import {Store} from '@ngrx/store';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
 import * as fromApp from '../../store/app.reducer';
+import * as fromAuth from '../../auth/store/auth.reducers';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -31,7 +33,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onAddToShoppingList() {
-    if(this.authService.isAuthenticated()){
+    if(this.isUserAuthenticate()){
       this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipe.ingredients));
     }else{
       this.router.navigate(['/signin']);
@@ -44,6 +46,9 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   isUserAuthenticate() {
-    return this.authService.isAuthenticated();
+    return this.store.select('auth').pipe(map(
+      (authState: fromAuth.State)=>{
+        return authState.authenticated;
+      }));
   }
 }

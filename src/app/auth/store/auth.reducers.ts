@@ -10,7 +10,7 @@ const initialState: State = {
   authenticated: false
 };
 
-export function authReducers(state = initialState, action: AuthActions.AuthActions) {
+export function authReducers(state = initialState, action: AuthActions.AuthActions): State {
   switch (action.type){
     case AuthActions.AUTH_SIGNUP:
     case AuthActions.AUTH_SIGNIN:
@@ -23,6 +23,11 @@ export function authReducers(state = initialState, action: AuthActions.AuthActio
         ... state,
         token: null,
         authenticated: false
+      };
+    case AuthActions.SET_TOKEN:
+      return {
+        ...state,
+        token: action.payload
       };
     default:
       return state;
