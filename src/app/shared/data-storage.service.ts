@@ -6,7 +6,6 @@ import {Recipe} from '../recipes/recipe.model';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {Ingredient} from './ingredient.model';
 import {Store} from '@ngrx/store';
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
 import * as fromApp from '../store/app.reducer';
 
