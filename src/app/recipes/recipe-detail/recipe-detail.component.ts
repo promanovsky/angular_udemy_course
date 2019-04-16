@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Recipe} from '../recipe.model';
 import {RecipesService} from '../recipes.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {Store} from '@ngrx/store';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
+import * as RecipesActions from '../../recipes/store/recipe.actions';
 import * as fromApp from '../../store/app.reducer';
 import * as fromAuth from '../../auth/store/auth.reducers';
-import {map} from 'rxjs/operators';
+import * as fromRecipe from '../../recipes/store/recipe.reducers';
+import {take} from 'rxjs/operators';
+import {Recipe} from '../recipe.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -16,7 +19,7 @@ import {map} from 'rxjs/operators';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
-  id: number;
+  authState: Observable<fromAuth.State>;
 
   constructor(private recipeService: RecipesService, private route: ActivatedRoute,
               private router: Router, private authService: AuthService,
@@ -26,29 +29,29 @@ export class RecipeDetailComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.recipe = this.recipeService.getRecipe(this.id);
+          const id = +params['id'];
+          this.store.select('recipesList').pipe(take(1)).subscribe((recipeList: fromRecipe.State)=>{
+            this.recipe = recipeList.recipes.find((item)=>{
+              return item.id === id;
+            });
+          });
         }
       );
+    this.authState = this.store.select('auth');
   }
 
   onAddToShoppingList() {
-    if(this.isUserAuthenticate()){
-      this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipe.ingredients));
-    }else{
-      this.router.navigate(['/signin']);
-    }
+    this.authState.subscribe((authState: fromAuth.State)=>{
+       if(authState.authenticated){
+         this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipe.ingredients));
+       }else {
+         this.router.navigate(['/signin']);
+       }
+    });
   }
 
   onDeleteRecipe(id: number) {
-    this.recipeService.deleteRecipe(id);
+    this.store.dispatch(new RecipesActions.DeleteRecipe(this.recipe));
     this.router.navigate(['/recipes']);
-  }
-
-  isUserAuthenticate() {
-    return this.store.select('auth').pipe(map(
-      (authState: fromAuth.State)=>{
-        return authState.authenticated;
-      }));
   }
 }

@@ -5,6 +5,7 @@ import {HttpEvent} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer'
 import * as fromAuth from '../../auth/store/auth.reducers'
+import * as RecipeActions from '../../recipes/store/recipe.actions'
 import {Observable} from 'rxjs';
 import * as AuthActions from '../../auth/store/auth.actions';
 import * as firebase from 'firebase';
@@ -30,13 +31,16 @@ export class HeaderComponent implements OnInit{
   }
 
   loadFromDb() {
-    this.dataStorageService.loadRecipes().subscribe(
+    /*this.dataStorageService.loadRecipes().subscribe(
       (response) => {
         console.log(response);
       },
       (error) => {console.log(error);
       }
-    );
+    );*/
+
+    this.store.dispatch(new RecipeActions.FetchRecipes());
+
     this.dataStorageService.loadIngredients().subscribe(
       (response) => {
         console.log(response);

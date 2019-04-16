@@ -4,7 +4,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as fromAuth from '../auth/store/auth.reducers'
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuardService implements CanActivate{
@@ -12,7 +12,8 @@ export class AuthGuardService implements CanActivate{
   constructor(private store: Store<fromApp.AppState>){}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.store.select('auth').pipe(map((authState: fromAuth.State)=>{
+    return this.store.select('auth')
+      .pipe(take(1),map((authState: fromAuth.State)=>{
       return authState.authenticated;
     }));
   }

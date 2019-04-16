@@ -10,7 +10,7 @@ const initialState: State = {
   authenticated: false
 };
 
-export function authReducers(state = initialState, action: AuthActions.AuthActions): State {
+export function authReducers(state = initialState, action: AuthActions.AuthActions) {
   switch (action.type){
     case AuthActions.AUTH_SIGNUP:
     case AuthActions.AUTH_SIGNIN:

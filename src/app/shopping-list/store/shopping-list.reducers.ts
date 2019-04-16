@@ -16,7 +16,7 @@ const initialState: State = {
   lastId: 2
 };
 
-export function shoppingListReducer(state = initialState, action: ShoppingListActions.ShoppingListActions): State {
+export function shoppingListReducer(state = initialState, action: ShoppingListActions.ShoppingListActions) {
   switch (action.type){
     case ShoppingListActions.ADD_INGREDIENT:
       const ingToAdd = action.payload;
