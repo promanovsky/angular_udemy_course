@@ -6,7 +6,6 @@ import {SharedModule} from '../shared/shared.module';
 import {AppRoutingModule} from '../app-routing.module';
 import {DataStorageService} from '../shared/data-storage.service';
 import {AuthService} from '../auth/auth.service';
-import {RecipesService} from '../recipes/recipes.service';
 import {AuthGuardService} from '../auth/auth-guard.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '../shared/auth.interceptor';
@@ -27,7 +26,6 @@ import {LoggingInterceptor} from '../shared/logging.interceptor';
     HeaderComponent
   ],
   providers: [
-    RecipesService,
     DataStorageService,
     AuthService,
     AuthGuardService,

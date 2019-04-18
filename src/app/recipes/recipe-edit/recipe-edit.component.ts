@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {RecipesService} from '../recipes.service';
 import * as RecipesActions from '../store/recipe.actions'
 import * as fromRecipes from '../store/recipe.reducers';
 import * as fromApp from '../../store/app.reducer';
@@ -22,7 +21,6 @@ export class RecipeEditComponent implements OnInit {
   recipeIngredients = new FormArray([]);
 
   constructor(private route: ActivatedRoute,
-              private recipeService: RecipesService,
               private router: Router,
               private store: Store<fromApp.AppState>) { }
 
