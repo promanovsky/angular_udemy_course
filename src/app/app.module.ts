@@ -14,13 +14,14 @@ import {AuthEffects} from './auth/store/auth.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId:"my-ssr-app"}),
     FormsModule,
     HttpClientModule,
     AuthModule,
@@ -30,7 +31,8 @@ import {environment} from '../environments/environment';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     StoreRouterConnectingModule,
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })
